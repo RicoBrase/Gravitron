@@ -54,7 +54,8 @@ public final class JLaTeXMathCache {
     private static final AffineTransform identity = new AffineTransform();
     private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(128);
     private static int max = Integer.MAX_VALUE;
-    private static ReferenceQueue queue = new ReferenceQueue();
+    @SuppressWarnings("rawtypes")
+	private static ReferenceQueue queue = new ReferenceQueue();
 
     private JLaTeXMathCache() { }
 
@@ -224,7 +225,8 @@ public final class JLaTeXMathCache {
         return img.get().image;
     }
 
-    private static SoftReference<CachedImage> makeImage(CachedTeXFormula cached) throws ParseException {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private static SoftReference<CachedImage> makeImage(CachedTeXFormula cached) throws ParseException {
         TeXFormula formula = new TeXFormula(cached.f);
         TeXIcon icon = formula.createTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
         icon.setInsets(new Insets(cached.inset, cached.inset, cached.inset, cached.inset));
